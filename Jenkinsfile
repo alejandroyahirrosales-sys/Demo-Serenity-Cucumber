@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/Laura4lilavati/Demo-Serenity-Cucumber.git'
+        git 'https://github.com/alejandroyahirrosales-sys/Demo-Serenity-Cucumber.git'
       }
     }
     stage('Build & Test') {
@@ -12,9 +12,18 @@ pipeline {
       }
     }
     stage('Report') {
-      steps {
-        publishHTML([reportDir: 'target/site/serenity', reportFiles: 'index.html', reportName: 'Serenity Report'])
-      }
-    }
+            steps {
+                publishHTML(
+                    target: [
+                        reportDir: 'target/site/serenity',
+                        reportFiles: 'index.html',
+                        reportName: 'Serenity Report',
+                        keepAll: true,                // guarda todos los reportes
+                        alwaysLinkToLastBuild: true,  // enlace al último build
+                        allowMissing: true            // no rompe si falta el html
+                    ]
+                )
+            }
+    }
   }
 }
