@@ -10,21 +10,21 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                bat 'mvn clean verify'
+                bat 'mvn clean verify -Dwebdriver.driver=chrome -Dserenity.headless.mode=true'
             }
         }
+    }
 
-        stage('Report') {
-            steps {
-                publishHTML([
-                    reportDir: 'target/site/serenity',
-                    reportFiles: 'index.html',
-                    reportName: 'Serenity Report',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: true
-                ])
-            }
+    post {
+        always {
+            publishHTML([
+                reportDir: 'target/site/serenity',
+                reportFiles: 'index.html',
+                reportName: 'Serenity Report',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
         }
     }
 }
