@@ -1,8 +1,11 @@
-	pipeline {
+pipeline {
     agent any
 
-    stages {
+    tools {
+        maven 'M3'   // nombre EXACTO que pusiste en Maven installations
+    }
 
+    stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/alejandroyahirrosales-sys/Demo-Serenity-Cucumber.git'
@@ -17,16 +20,11 @@
 
         stage('Report') {
             steps {
-                publishHTML(
-                    target: [
-                        reportDir: 'target/site/serenity',
-                        reportFiles: 'index.html',
-                        reportName: 'Serenity Report',
-                        keepAll: true,
-                        alwaysLinkToLastBuild: true,
-                        allowMissing: true
-                    ]
-                )
+                publishHTML([
+                    reportDir: 'target/site/serenity',
+                    reportFiles: 'index.html',
+                    reportName: 'Serenity Report'
+                ])
             }
         }
     }
