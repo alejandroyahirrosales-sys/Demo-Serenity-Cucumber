@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'M3'   // nombre EXACTO que pusiste en Maven installations
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -23,7 +19,10 @@ pipeline {
                 publishHTML([
                     reportDir: 'target/site/serenity',
                     reportFiles: 'index.html',
-                    reportName: 'Serenity Report'
+                    reportName: 'Serenity Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: true
                 ])
             }
         }
